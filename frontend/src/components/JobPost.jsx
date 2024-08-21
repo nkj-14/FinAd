@@ -15,6 +15,8 @@ const JobPost = ({ post }) => {
   const [imageActive, setImageActive] = useState(0);
   const [isLike, setIsLike] = useState(false);
   const [isLikeClicked, setIsLikeClicked] = useState(false);
+  const [isReach, setIsReach] = useState(false);
+  const [isReachClicked, setIsReachClicked] = useState(false);
 
   const handlePrevImage = () => {
     setImageActive((imageActive) => (imageActive - 1 < 0 ? image_array.length - 1 : imageActive - 1));
@@ -49,15 +51,28 @@ const JobPost = ({ post }) => {
   };
 
   const handleReach = async () => {
-    await axios.post("/api/postlikes/likepost", {
+    await axios.post("/api/reach/reachpost", {
       postId: post._id,
     });
-    setIsLikeClicked(!isLikeClicked);
-    await axios.put("/api/postorganisation/updatelikecount", {
+    setIsReachClicked(!isLikeClicked);
+    await axios.put("/api/postorganisation/updatereachcount", {
       postId: post._id,
       incrementBy: 1,
     });
   };
+
+  // const handleUnReach = async () => {
+  //   await axios.delete("/api/reach/unreachpost", {
+  //     data: {
+  //       postId: post._id,
+  //     },
+  //   });
+  //   setIsReachClicked(!isLikeClicked);
+  //   await axios.put("/api/postorganisation/updatereachcount", {
+  //     postId: post._id,
+  //     incrementBy: -1,
+  //   });
+  // };
 
   useEffect(() => {
     async function getLikedPostSingle() {
@@ -71,6 +86,19 @@ const JobPost = ({ post }) => {
 
     getLikedPostSingle();
   }, [isLikeClicked]);
+
+  useEffect(() => {
+    async function getReachedPostSingle() {
+      const response = await axios.get(`/api/reach/getreachedpostsingle?postId=${post._id}`);
+      if (response.data.resData) {
+        setIsReach(true);
+      } else {
+        setIsReach(false);
+      }
+    }
+
+    getReachedPostSingle();
+  }, [isReachClicked]);
 
   return (
     <div className="border h-auto bg-[#3d3d3d] border-[#3d3d3d] rounded-sm mb-4">
@@ -113,8 +141,8 @@ const JobPost = ({ post }) => {
             <div>Comment</div>
           </div>
         </div>
-        <div className="mx-4 cursor-pointer mt-4">
-          <FaRegArrowAltCircleUp className="mx-auto" size={30} />
+        <div className="mx-4 cursor-pointer mt-4" onClick={!isReach ? handleReach : null}>
+          <FaRegArrowAltCircleUp className="mx-auto" size={30} color={isReach ? "green" : ""} />
           <div className="text-xs flex justify-center">
             <div>Reach</div>
           </div>

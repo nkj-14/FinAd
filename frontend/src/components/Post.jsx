@@ -19,7 +19,9 @@ const Post = ({ post }) => {
     setImageActive((imageActive) => (imageActive - 1 < 0 ? image_array.length - 1 : imageActive - 1));
   };
 
-  const handleNextImage = () => {};
+  const handleNextImage = () => {
+    setImageActive((imageActive) => (imageActive + 1) % image_array.length);
+  };
 
   const handleLike = async () => {
     await axios.post("/api/postlikes/likepost", {

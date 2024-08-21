@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const postOrganisationReachSchema = mongoose.Schema(
   {
-    postId: {
+    post: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "PostOrganisation",
       required: true,
     },
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,

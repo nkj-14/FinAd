@@ -20,7 +20,12 @@ const CustomerType = () => {
           >
             Influencer
           </div>
-          <div className="border-2 text-center rounded-xl text-4xl mt-4 px-20 py-4 cursor-pointer hover:text-slate-400">Organization</div>
+          <div
+            className="border-2 text-center rounded-xl text-4xl mt-4 px-20 py-4 cursor-pointer hover:text-slate-400"
+            onClick={() => navigate("/organizationsignup")}
+          >
+            Organization
+          </div>
         </div>
       </div>
     </div>

@@ -64,8 +64,7 @@ const updateLikesCount = async (req, res) => {
 
 const updateReachCount = async (req, res) => {
   try {
-    const { postId } = req.params;
-    const { incrementBy } = req.body;
+    const { postId, incrementBy } = req.body;
 
     const updatedPost = await PostOrganisation.findByIdAndUpdate(postId, { $inc: { reachCount: incrementBy } }, { new: true, runValidators: true });
 
