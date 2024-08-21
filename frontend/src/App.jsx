@@ -12,6 +12,8 @@ import Feedpage from "./pages/Feedpage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import OrganizationSignup from "./pages/OrganizationSignup";
 import OrganizationProfile from "./pages/OrganizationProfile";
+import JobPost from "./components/JobPost";
+import JobFeedpage from "./pages/JobFeedpage";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -58,6 +60,14 @@ function App() {
     {
       path: "/organizationsprofile",
       element: <OrganizationProfile />,
+    },
+    {
+      path: "/jobpost",
+      element: <JobPost />,
+    },
+    {
+      path: "/jobfeedpage",
+      element: <JobFeedpage />,
     },
   ]);
 

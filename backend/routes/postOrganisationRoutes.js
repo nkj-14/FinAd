@@ -1,5 +1,5 @@
 import express from "express";
-import {  createPostOrganisation, getPostsByOrganisation, updateLikesCount, updateReachCount  } from "../controllers/postOrganisationController.js";
+import { createPostOrganisation, getPostsByOrganisation, updateLikesCount, updateReachCount } from "../controllers/postOrganisationController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();

@@ -43,11 +43,11 @@ const SignInPage = () => {
             <img className="h-[60px]" src={SiteLogo} alt="" />
           </div>
           <div className="text-center font-semibold mt-2 mb-4">Login to FinAd to continue</div>
-          <div onChange={(e) => setEmailId(e.target.value)}>
-            <BasicTextFields label="Email Address" />
+          <div>
+            <BasicTextFields value={emailId} label="Email Address" onChange={(e) => setEmailId(e.target.value)} />
           </div>
-          <div onChange={(e) => setPassword(e.target.value)}>
-            <PasswordInputBox />
+          <div>
+            <PasswordInputBox value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
 
           <div className="ml-[10px] text-sm font-medium cursor-pointer w-fit">Forgot Password?</div>

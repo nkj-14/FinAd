@@ -10,13 +10,28 @@ const OrganizationProfile = () => {
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get("orgId");
   const [orgDetails, setOrgDetails] = useState("");
-  const [isCreateJobPost, setIsCreateJobPost] = useState(true);
+  const [isCreateJobPost, setIsCreateJobPost] = useState(false);
   const [textContent, setTextContent] = useState("");
   const [imageArray, setImageArray] = useState([]);
-  const [loading, isLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
 
-  const handlePost = async (e) => {};
+  const handlePost = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    await axios.post("/api/postorganisation/createpostorganisation", {
+      content: textContent,
+      status: "active",
+      pictures: imageArray,
+      organisation: query,
+    });
+    setLoading(false);
+    toast.success("Post created");
+    setTextContent("");
+    setImage(null);
+    setImageArray([]);
+    setIsCreateJobPost(!isCreateJobPost);
+  };
 
   const setFileToBase64 = (file) => {
     const reader = new FileReader();

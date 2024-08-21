@@ -1,4 +1,5 @@
 import express from "express";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 import {
   createOrganisation,
@@ -10,10 +11,10 @@ import {
 
 const router = express.Router();
 
-router.post("/signup", createOrganisation);
-router.post("/signin", loginOrganisation);
-router.post("/logout", logoutOrganisation);
-router.get("/getorganisationbyid/:id", getOrganisationById);
-router.put("/updateorganisation", updateOrganisation);
+router.post("/signup", authMiddleware, createOrganisation);
+router.post("/signin", authMiddleware, loginOrganisation);
+router.post("/logout", authMiddleware, logoutOrganisation);
+router.get("/getorganisationbyid/:id", authMiddleware, getOrganisationById);
+router.put("/updateorganisation", authMiddleware, updateOrganisation);
 
 export default router;

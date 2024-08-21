@@ -1,47 +1,48 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const postOrganisationSchema = mongoose.Schema({
-
-    content: { 
-        type: String, 
-        required: true 
+const postOrganisationSchema = mongoose.Schema(
+  {
+    content: {
+      type: String,
     },
-    status: { 
-        type: String, 
-        required: true, 
-        enum: ['active', 'expired'], 
-        default: 'active' 
+    status: {
+      type: String,
+      required: true,
+      enum: ["active", "expired"],
+      default: "active",
     },
-    deadline: { 
-        type: Date
+    deadline: {
+      type: Date,
     },
-    organisation: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Organisation', 
-        required: true
+    organisation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Organisation",
+      required: true,
     },
-    pictures: [{
+    pictures: [
+      {
         publicId: {
-            type: String,
-            required: true,
+          type: String,
+          required: true,
         },
         url: {
-            type: String,
-            required: true,
+          type: String,
+          required: true,
         },
-    }],
+      },
+    ],
     likesCount: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
     reachCount: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
-    }, 
-    { timestamps: true }
+  },
+  { timestamps: true }
 );
 
-const PostOrganisation = mongoose.model('PostOrganisation', postOrganisationSchema);
+const PostOrganisation = mongoose.model("PostOrganisation", postOrganisationSchema);
 
 export default PostOrganisation;
