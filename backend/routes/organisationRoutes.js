@@ -11,9 +11,9 @@ import {
 
 const router = express.Router();
 
-router.post("/signup", authMiddleware, createOrganisation);
-router.post("/signin", authMiddleware, loginOrganisation);
-router.post("/logout", authMiddleware, logoutOrganisation);
+router.post("/signup", createOrganisation);
+router.post("/signin", loginOrganisation);
+router.post("/logout", logoutOrganisation);
 router.get("/getorganisationbyid/:id", authMiddleware, getOrganisationById);
 router.put("/updateorganisation", authMiddleware, updateOrganisation);
 

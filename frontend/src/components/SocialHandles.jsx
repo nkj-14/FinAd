@@ -7,13 +7,21 @@ import { FaLinkedin } from "react-icons/fa";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
+import { useSelector } from "react-redux";
 
 const SocialHandles = () => {
   const navigate = useNavigate();
 
+  const user = useSelector((state) => state.user.userInfo);
+
   const [isSelected, setIsSelected] = useState(false);
   const [currentHandle, setCurrentHandle] = useState(null);
   const [handleName, setHandleName] = useState("");
+  const [instaHandleId, setInstaHandleId] = useState("");
+  const [resFromPy, setResFromPy] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleComponents = {
     FaInstagram: FaInstagram,
@@ -26,6 +34,17 @@ const SocialHandles = () => {
 
   const SelectedIcon = currentHandle ? handleComponents[currentHandle] : null;
 
+  const handleInstaVerify = async () => {
+    setLoading(true);
+    const response = await axios.post("/api/scrapperEngine", {
+      handle: instaHandleId,
+      user: user,
+    });
+    setResFromPy(response.data);
+    setLoading(false);
+    setIsSelected(false);
+  };
+
   return (
     <div>
       <div className=" min-h-screen text-white">
@@ -37,7 +56,7 @@ const SocialHandles = () => {
               <>
                 <div className="flex justify-between mx-10 mt-20">
                   <FaInstagram
-                    className="cursor-pointer"
+                    className={`cursor-pointer ${instaHandleId ? "text-green-600" : "white"}`}
                     onClick={() => {
                       setIsSelected(true);
                       setCurrentHandle("FaInstagram");
@@ -113,10 +132,17 @@ const SocialHandles = () => {
                   <div className="text-center">{handleName}</div>
                   <div className="text-center text-3xl mt-12">Username</div>
                   <div className="flex justify-center mt-4">
-                    <input className="w-[60%] px-3 py-3 rounded-full border-white border-2 bg-[#212121]" type="text" />
+                    <input
+                      className="w-[60%] px-3 py-3 rounded-full border-white border-2 bg-[#212121]"
+                      type="text"
+                      value={instaHandleId}
+                      onChange={(e) => setInstaHandleId(e.target.value)}
+                    />
                   </div>
                   <div className="flex justify-center mt-4 text-md ">
-                    <div className="cursor-pointer w-fit hover:text-gray-500">Verify handle</div>
+                    <div className="cursor-pointer w-fit hover:text-gray-500" onClick={handleInstaVerify}>
+                      {!loading ? "Verify Handle" : <ClipLoader color="#ffffff" />}
+                    </div>
                   </div>
                   <div className="ml-4 mt-10 text-sm">
                     <div>* Account should be public.</div>

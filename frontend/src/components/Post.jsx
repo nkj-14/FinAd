@@ -7,9 +7,9 @@ import leftArrow from "../images/left-arrow.png";
 import rightArrow from "../images/right-arrow.png";
 
 const Post = ({ post }) => {
-  // console.log("post: ", post);
+  console.log("post: ", post);
   const image_array = post.images;
-  console.log(image_array);
+  // console.log(image_array);
 
   const [imageActive, setImageActive] = useState(0);
   const [isLike, setIsLike] = useState(false);

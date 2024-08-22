@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import BasicButtons from "../muiComponents/Button";
 import CreatePost from "../components/CreatePost";
 import toast from "react-hot-toast";
+import JobPost from "../components/JobPost";
 
 const OrganizationProfile = () => {
   const location = useLocation();
@@ -15,6 +16,7 @@ const OrganizationProfile = () => {
   const [imageArray, setImageArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
+  const [orgPosts, setOrgPosts] = useState(null);
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -59,10 +61,22 @@ const OrganizationProfile = () => {
     getOrgById();
   }, []);
 
+  useEffect(() => {
+    async function getOrgPostsById() {
+      const response = await axios.post(`/api/postorganisation/getpostsbyorganisationId`, {
+        orgId: query,
+      });
+      setOrgPosts(response.data);
+      console.log("oo", response.data);
+    }
+
+    getOrgPostsById();
+  }, []);
+
   return (
     <div className="w-[100%] min-h-screen">
       <div className="text-white w-[100%]">
-        <div className="h-[150px] w-[100%]"></div>
+        <div className="h-[20px] w-[100%]"></div>
         <div className="w-[150px] h-[150px] rounded-full ml-20 flex items-center">
           <img className="w-[150px] h-[150px] rounded-full" src={orgDetails.logo} alt="no-logo" />
           <div className="ml-10">
@@ -85,9 +99,32 @@ const OrganizationProfile = () => {
           <div>
             <BasicButtons label="Create Ad Post" width={300} onClick={() => setIsCreateJobPost(!isCreateJobPost)} />
           </div>
+          {!isCreateJobPost && (
+            <div className="ml-20 items-center">
+              <div className="flex justify-center text-xl">Active Posts</div>
+              <div className="mt-10 flex">
+                {orgPosts &&
+                  orgPosts.map((post) => (
+                    <div className="border border-black  w-[450px] m-4">
+                      <div className="flex justify-between mx-20 mt-4">
+                        <div className="text-center">{post.reachCount} Reach</div>
+                        <div className="text-center">{post.likesCount} Likes</div>
+                      </div>
 
-          <div className="w-[60%] ml-20">
-            {isCreateJobPost && (
+                      <div className="m-4 overflow-scroll">{post.content}</div>
+                      {post.pictures.map((img) => (
+                        <div className="m-4">
+                          <img src={img.url} alt="" />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {isCreateJobPost && (
+            <div className="w-[60%] ml-20">
               <CreatePost
                 onClick={() => setIsCreateJobPost(!isCreateJobPost)}
                 textContent={textContent}
@@ -98,8 +135,8 @@ const OrganizationProfile = () => {
                 setImageArray={setImageArray}
                 loading={loading}
               />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

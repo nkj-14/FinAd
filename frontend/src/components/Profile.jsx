@@ -7,55 +7,14 @@ import { FaTwitter, FaXTwitter } from "react-icons/fa6";
 import { PiTiktokLogoThin } from "react-icons/pi";
 import { CiYoutube } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
-import profilePic from "../images/IMG_0350.jpeg";
+import profilePic from "../images/purav.jpg";
 import { useEffect, useRef } from "react";
 import { CiCircleChevRight } from "react-icons/ci";
 import { CiCircleChevLeft } from "react-icons/ci";
 import { useState } from "react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import pic2 from "../images/SiteLogo.jpg";
-import pic3 from "../images/pic.jpg";
-import pic4 from "../images/flag.jpeg";
-
-function Slider({ slides, currentSlide, setCurrentSlide }) {
-  const handlePrev = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-
-  return (
-    <div className="relative w-full max-w-2xl mx-auto overflow-hidden h-96 mt-6  rounded-2xl shadow-xl shadow-blue-200">
-      <div className="flex transition-transform duration-500 h-full" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-        {slides.map((slide, index) => (
-          <div key={index} className="w-full flex-shrink-0 h-full">
-            {slide.type === "image" ? (
-              <img src={slide.src} alt={slide.alt} className="w-full h-full object-cover" />
-            ) : (
-              <video src={slide.src} controls className="w-full h-full object-cover" />
-            )}
-          </div>
-        ))}
-      </div>
-      {currentSlide > 0 && (
-        <button onClick={handlePrev} className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">
-          <CiCircleChevLeft />
-        </button>
-      )}
-      {currentSlide < slides.length - 1 && (
-        <button onClick={handleNext} className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full">
-          <CiCircleChevRight />
-        </button>
-      )}
-    </div>
-  );
-}
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const scrollList = (element, direction) => {
   if (element) {
@@ -139,6 +98,22 @@ function EndorsedProducts() {
 }
 
 function Profile() {
+  const user = useSelector((state) => state.user.userInfo);
+
+  const [responsex, setResponsex] = useState(null);
+
+  useEffect(() => {
+    async function fn() {
+      const resp = await axios.post("/api/instadetails", {
+        user,
+      });
+      setResponsex(resp.data);
+      console.log(resp.data);
+    }
+
+    fn();
+  }, []);
+
   useEffect(() => {
     const counters = document.querySelectorAll(".count-up");
     counters.forEach((counter) => {
@@ -178,15 +153,13 @@ function Profile() {
     <div className="App flex flex-col min-h-screen">
       <Dashbord />
       <Maincontent />
-      <Feeds />
-      <Footer />
     </div>
   );
 }
 
 function Dashbord() {
   return (
-    <header className="bg-black text-white p-4 shadow">
+    <header className="bg-[#212121] text-white p-4 shadow">
       <div className="container mx-auto flex items-center">
         <h1 className="text-xl font-bold ml-10">My Dashboard</h1>
         <nav className="flex-1">
@@ -223,29 +196,22 @@ function Dashbord() {
 }
 
 function Maincontent() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [
-    { type: "image", src: profilePic, alt: "Profile Picture", description: "Description for Profile Picture" },
-    { type: "image", src: pic2, alt: "Sample Video", description: "Description for Sample Video 1" },
-    { type: "image", src: pic3, alt: "Sample Video", description: "This was one of the finest and swwetest trip i ever been with" },
-    { type: "image", src: pic4, alt: "Sample Video", description: "Description for Sample Video 3" },
-  ];
-
   return (
-    <div className="flex flex-col lg:flex-row bg-black text-white p-4 lg:pl-20 lg:pr-10 pt-1 lg:pt-4">
+    <div className="flex flex-col bg-[#212121] lg:flex-row text-white p-4 lg:pl-20 lg:pr-10 pt-1 lg:pt-4">
       {/* Left Section */}
-      <div className="lg:w-2/3 flex flex-col justify-center items-center lg:pb-60 lg:items-start px-4 lg:pr-80">
+      <div className="lg:w-2/3 flex flex-col  lg:pb-60 lg:items-start px-4 lg:pr-80 ">
         {/* Big Name */}
-        <h2 className="text-6xl font-bold lg:pb-6 lg:mb-4 lg:mt-10 lg:pt-8 text-center lg:text-left">Sameer Kant</h2>
+        <h2 className="text-6xl font-bold lg:pb-6 lg:mb-4 lg:mt-10 lg:pt-8 text-center lg:text-left">Purav Jha</h2>
         {/* About Section */}
         <p className="text-lg text-white-700 lg:pb-10 mb-4 font-raleway font-medium">
-          Hi, I am Sameer Kant, a food blogger. I love to write and sing. I have a good fanbase and viewers mostly watch my food blogs, I own multiple
-          channels.
+          Purav Jha is a rising star in the Indian digital landscape, known for his engaging content as a social media influencer and actor. Born in
+          New Delhi, he has quickly made a name for himself through his collaborations with popular creators and his own YouTube channel. This
+          biography explores his early life, career trajectory, personal achievements, and future aspirations, providing a comprehensive look at the
+          life of this young influencer.
         </p>
 
         {/* Followers Section */}
-        <div className="flex items-center mb-4 justify-center lg:justify-start rounded-lg ">
+        <div className="flex items-center mb-4 justify-center lg:justify-start rounded-lg pb ">
           <table className="table-auto flex justify-center">
             <tbody>
               <tr className="flex justify-between">
@@ -272,131 +238,50 @@ function Maincontent() {
               </tr>
               <tr className="flex justify-between">
                 <td className="px-6 font-raleway font-medium flex justify-center w-1/5">
-                  <span className="text-md font-bold font-usmodern count-up" data-count="2000000">
-                    0
+                  <span className="text-md font-bold font-usmodern count-up" data-count="">
+                    -
                   </span>
                 </td>
                 <td className="px-6 font-raleway font-medium flex justify-center w-1/5">
-                  <span className="text-md font-bold font-usmodern count-up" data-count="1200000">
-                    0
+                  <span className="text-md font-bold font-usmodern count-up" data-count="">
+                    -
                   </span>
                 </td>
                 <td className="px-6 font-raleway font-medium flex justify-center w-1/5">
-                  <span className="text-md font-bold font-usmodern count-up" data-count="50000">
-                    0
+                  <span className="text-md font-bold font-usmodern count-up" data-count="">
+                    -
                   </span>
                 </td>
                 <td className="px-6 font-raleway font-medium flex justify-center w-1/5">
-                  <span className="text-md font-bold font-usmodern count-up" data-count="20900">
-                    0
+                  <span className="text-md font-bold font-usmodern count-up" data-count="">
+                    -
                   </span>
                 </td>
                 <td className="px-6 font-raleway font-medium flex justify-center w-1/5">
-                  <span className="text-md font-bold font-usmodern count-up" data-count="2000000">
-                    0
+                  <span className="text-md font-bold font-usmodern count-up" data-count="">
+                    -
                   </span>
                 </td>
               </tr>
+              <tr>
+                <td className="px-2 mt-10 w-fit text-2xl font-raleway font-medium flex flex-col items-center justify-center">Insta Score</td>
+              </tr>
             </tbody>
           </table>
-        </div>
-        {/* Slider Section */}
-        <div className="w-full flex justify-center mt-6 lg:pt-12 ml-14">
-          <Slider slides={slides} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
-        </div>
-
-        {/* Text Containers */}
-        <div className="w-full flex flex-col items-center mt-6 space-y-4 ">
-          {slides.map((slide, index) => (
-            <div key={index} className={`text-center ${index === currentSlide ? "block" : "hidden"}`}>
-              <p className="text-xl  font-extralight font-poppins pl-20 ">{slide.description}</p>
-            </div>
-          ))}
         </div>
       </div>
 
       {/* Right Section */}
       <div className="lg:w-1/3 flex flex-col justify-center items-center mr-10 pt-2 space-y-20 mb-20">
         {/* Profile Picture Container */}
-        <div className="w-full h-auto border border-black rounded-lg overflow-hidden ">
-          <img src={profilePic} alt="Profile" className="object-cover w-full h-full" />
+        <div className="w-full  h-96 border border-black rounded-lg overflow-hidden ">
+          <img src={profilePic} alt="Profile" className=" w-full h-96" />
         </div>
 
         {/* Container for previously worked companies */}
         <EndorsedProducts />
       </div>
     </div>
-  );
-}
-function Feeds() {
-  return (
-    <div className="h-max w-full bg-white-600">
-      <h1>Hi i am Feeds.</h1>
-      <ul>
-        <li>
-          <p>habskchoasbnck</p>
-        </li>
-        <li>
-          <h1>Hi i am Feeds.</h1>
-        </li>
-        <li>
-          <h1>Hi i am Feeds.</h1>
-        </li>
-        <li>
-          <h1>Hi i am Feeds.</h1>
-        </li>
-        <li></li>
-        <li>
-          <h1>Hi i am Feeds.</h1>
-        </li>
-        <li></li>
-        <li>
-          <h1>Hi i am Feeds.</h1>
-        </li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-    </div>
-  );
-}
-function Footer() {
-  return (
-    <footer className="bg-gray-800 text-white p-4 mt-6">
-      <div className="container mx-auto text-center">
-        <p className="text-sm">&copy; {new Date().getFullYear()} Sameer Kant. All rights reserved.</p>
-        <div className="flex justify-center space-x-4 mt-2">
-          <a href="#instagram" className="hover:text-gray-400">
-            <CiInstagram className="text-2xl" />
-          </a>
-          <a href="#twitter" className="hover:text-gray-400">
-            <FaTwitter className="text-2xl" />
-          </a>
-          <a href="#tiktok" className="hover:text-gray-400">
-            <PiTiktokLogoThin className="text-2xl" />
-          </a>
-          <a href="#youtube" className="hover:text-gray-400">
-            <CiYoutube className="text-2xl" />
-          </a>
-          <a href="#linkedin" className="hover:text-gray-400">
-            <CiLinkedin className="text-2xl" />
-          </a>
-        </div>
-      </div>
-    </footer>
   );
 }
 

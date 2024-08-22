@@ -46,6 +46,17 @@ const getPostsByOrganisation = async (req, res) => {
   }
 };
 
+const getPostsByOrganisationId = async (req, res) => {
+  const { orgId } = req.body;
+  try {
+    const posts = await PostOrganisation.find({ organisation: orgId });
+    console.log("obt posts: ", posts);
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log("ERROR: ", error);
+  }
+};
+
 const updateLikesCount = async (req, res) => {
   try {
     const { postId, incrementBy } = req.body;
@@ -78,4 +89,4 @@ const updateReachCount = async (req, res) => {
   }
 };
 
-export { createPostOrganisation, getPostsByOrganisation, updateLikesCount, updateReachCount };
+export { createPostOrganisation, getPostsByOrganisation, updateLikesCount, updateReachCount, getPostsByOrganisationId };

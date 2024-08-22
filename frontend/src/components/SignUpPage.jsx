@@ -44,14 +44,14 @@ const SignUpPage = () => {
             <img className="h-[60px]" src={SiteLogo} alt="" />
           </div>
           <div className="text-center font-semibold mt-2 mb-4">Register to FinAd to continue</div>
-          <div onChange={(e) => setName(e.target.value)}>
-            <InputBox label="Name" />
+          <div>
+            <InputBox label="Name" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
-          <div onChange={(e) => setEmailId(e.target.value)}>
-            <InputBox label="Email Address" />
+          <div>
+            <InputBox label="Email Address" value={emailId} onChange={(e) => setEmailId(e.target.value)} />
           </div>
-          <div onChange={(e) => setPassword(e.target.value)}>
-            <PasswordInputBox />
+          <div>
+            <PasswordInputBox value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <div className="flex justify-center mt-7" onClick={handleContinueButton}>
             <Button label="Continue" width={300} />

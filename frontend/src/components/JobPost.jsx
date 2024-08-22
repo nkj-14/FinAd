@@ -109,7 +109,7 @@ const JobPost = ({ post }) => {
           </div>
           <div>
             <div className="mt-4 ml-2 flex">
-              <div>{post.organisation.name}</div>
+              <div className="">{post.organisation.name}</div>
             </div>
           </div>
         </div>
